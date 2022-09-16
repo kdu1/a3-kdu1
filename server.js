@@ -30,11 +30,11 @@ client.connect(err => {
   client.close();
 });
 
-const appdata = [
+/*const appdata = [
 ]
 
 //gets soonest dated task that has high priority
-/*const getMin = function(array){
+const getMin = function(array){
     let date = 10000;
     let indexPrev = [];
     for(let i = 0; i < array.length; i++){
