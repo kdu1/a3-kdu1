@@ -41,6 +41,15 @@ const deleteDream = function(){
 
 //edit dream: similar process, just replace innerhtml with new text
 //make a new form to get new text, default text is the current text
+const editDream = function(newText){
+   const index = 0
+    if(index > -1){
+        const chg = document.getElementById(index);
+        cng
+        dreams.splice(index, 1);
+    }
+    console.log(dreams)
+}
 
 
 // iterate through every dream and add it to our page
