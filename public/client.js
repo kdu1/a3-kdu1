@@ -15,9 +15,11 @@ let i = 0;
 // define variables that reference elements on our page
 const dreamsList = document.getElementById("dreams");
 const dreamsForm = document.forms[0];
+const dreamsModifyForm = document.forms[1];
 const dreamInput = dreamsForm.elements["dream"];
 const dreamRemove = document.getElementById("remove-dream");
-conds dreamModify = document.getElementById("modify-dream");
+const dreamModify = document.getElementById("modify-dream");
+const dreamModifyInput = dreamsModifyForm.elements["dream"];
 
 // a helper function that creates a list item for a given dream
 const appendNewDream = function(dream) {
@@ -79,9 +81,19 @@ dreamRemove.onclick = function(){
   deleteDream();
 }
 
-dreamChange.onclick = function(){
-  changeDream();
-}
+//change dream form
+dreamsModifyForm.onsubmit = function(event) {
+  // stop our form submission from refreshing the page
+  event.preventDefault();
+  
+  dreamModifyInput = 
+  
+
+  // reset form
+  dreamModifyInput.value = "";
+  dreamModifyInput.focus();
+};
+
 /*const appdata = [
 ]
 
