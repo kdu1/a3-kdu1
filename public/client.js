@@ -10,18 +10,31 @@ const dreams = [
   "Wash the dishes"
 ];
 
+let i = 0;
+
 // define variables that reference elements on our page
 const dreamsList = document.getElementById("dreams");
 const dreamsForm = document.forms[0];
 const dreamInput = dreamsForm.elements["dream"];
+const dreamRemove = document.getElementById("remove-dream");
 
 // a helper function that creates a list item for a given dream
 const appendNewDream = function(dream) {
   const newListItem = document.createElement("li");
   newListItem.innerHTML = dream;
-  newListItem.id = dreamsList.length;
+  newListItem.id = i;
+  console.log(newListItem.id);
   dreamsList.appendChild(newListItem);
+  i++;
 };
+
+const deleteDream = function(){
+  const index = 0
+    if(index > -1){
+        dreams.splice(index, 1)
+    }
+    console.log(dreams)
+}
 
 
 // iterate through every dream and add it to our page
@@ -35,6 +48,8 @@ dreamsForm.onsubmit = function(event) {
   event.preventDefault();
 
   // get dream value and add it to the list
+  dreamInput.value.id = i;
+  i++;
   dreams.push(dreamInput.value);
   appendNewDream(dreamInput.value);
 
@@ -42,6 +57,8 @@ dreamsForm.onsubmit = function(event) {
   dreamInput.value = "";
   dreamInput.focus();
 };
+
+removeDream.onclick
 
 /*const appdata = [
 ]
