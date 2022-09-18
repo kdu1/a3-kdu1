@@ -16,6 +16,8 @@ app.get("/", function(request, response) {
   response.sendFile(__dirname + "/views/index.html");
 });
 
+
+
 // listen for requests :)
 const listener = app.listen(process.env.PORT, function() {
   console.log("Your app is listening on port " + listener.address().port);
@@ -30,45 +32,3 @@ client.connect(err => {
   client.close();
 });
 
-/*const appdata = [
-]
-
-//gets soonest dated task that has high priority
-const getMin = function(array){
-    let date = 10000;
-    let indexPrev = [];
-    for(let i = 0; i < array.length; i++){
-        curDate = parseInt(array[i].dueDate)
-        curPrior = array[i].priority
-        if(curDate < date){
-            if(curPrior === "high"){
-                if(indexPrev.length > 0){
-                    for(let j = 0; j < indexPrev.length; j++){
-                        array[indexPrev[j]].urgent = 0
-                    }
-                    indexPrev = []
-                }
-                date = curDate
-                indexPrev.push(i)
-            }
-        }
-        else if(curDate === date){
-            if(curPrior === "high"){
-                indexPrev.push(i)
-            }
-        }
-        console.log("indexPrev")
-        console.log(indexPrev)
-    }
-    console.log("date")
-    console.log(date)
-    return date
-}
-
-const remove = function(array){
-    const index = 0
-    if(index > -1){
-        array.splice(index, 1)
-    }
-    console.log(array)
-}*/
