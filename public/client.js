@@ -28,13 +28,19 @@ const appendNewDream = function(dream) {
   i++;
 };
 
+//removes dream at index
 const deleteDream = function(){
   const index = 0
     if(index > -1){
-        dreams.splice(index, 1)
+        const rmv = document.getElementById(index);
+        rmv.remove();
+        dreams.splice(index, 1);
     }
     console.log(dreams)
 }
+
+//edit dream: similar process, just replace innerhtml with new text
+//make a new form to get new text, default text is the current text
 
 
 // iterate through every dream and add it to our page
@@ -58,7 +64,9 @@ dreamsForm.onsubmit = function(event) {
   dreamInput.focus();
 };
 
-removeDream.onclick
+dreamRemove.onclick = function(){
+  deleteDream();
+}
 
 /*const appdata = [
 ]
