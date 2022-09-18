@@ -6,6 +6,7 @@ const express = require("express");
 const app = express();
 
 var cookieParser = require('cookie-parser');
+var bodyParser = require('body-parser')
 
 // we've started you off with Express,
 // but feel free to use whatever libs or frameworks you'd like through `package.json`.
@@ -20,6 +21,17 @@ app.use(cookieParser());
   response.sendFile(__dirname + "/views/login.html");
 });*/
 
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }))
+
+// parse application/json
+app.use(bodyParser.json())
+
+app.use(function (req, res) {
+  res.setHeader('Content-Type', 'text/plain')
+  res.write('you posted:\n')
+  res.end(JSON.stringify(req.body, null, 2))
+})
 
 // http://expressjs.com/en/starter/basic-routing.html
 app.get("/", function(request, response) {
