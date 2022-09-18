@@ -5,6 +5,8 @@
 const express = require("express");
 const app = express();
 
+var cookieParser = require('cookie-parser');
+
 // we've started you off with Express,
 // but feel free to use whatever libs or frameworks you'd like through `package.json`.
 
@@ -12,19 +14,19 @@ const app = express();
 app.use(express.static("public"));
 app.use(cookieParser());
 
-app.get("/", function(request, response) {
-  console.log(request.cookies);
-  console.log('Signed Cookies: ', request.signedCookies);
+/*app.get("/", function(request, response) {
+  //console.log(request.cookies);
+  //console.log('Signed Cookies: ', request.signedCookies);
   response.sendFile(__dirname + "/views/login.html");
-});
+});*/
 
 
 // http://expressjs.com/en/starter/basic-routing.html
 app.get("/", function(request, response) {
+  console.log(request.cookies);
+  console.log('Signed Cookies: ', request.signedCookies);
   response.sendFile(__dirname + "/views/index.html");
 });
-
-var cookieParser = require('cookie-parser');
 
 
 // listen for requests :)
