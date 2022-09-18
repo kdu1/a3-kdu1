@@ -17,6 +17,7 @@ const dreamsList = document.getElementById("dreams");
 const dreamsForm = document.forms[0];
 const dreamInput = dreamsForm.elements["dream"];
 const dreamRemove = document.getElementById("remove-dream");
+conds dreamModify = document.getElementById("modify-dream");
 
 // a helper function that creates a list item for a given dream
 const appendNewDream = function(dream) {
@@ -41,12 +42,13 @@ const deleteDream = function(){
 
 //edit dream: similar process, just replace innerhtml with new text
 //make a new form to get new text, default text is the current text
-const editDream = function(newText){
+const changeDream = function(newText){
    const index = 0
     if(index > -1){
         const chg = document.getElementById(index);
-        cng
-        dreams.splice(index, 1);
+        chg.innerHTML = newText;
+        dreams[index] = chg;
+        
     }
     console.log(dreams)
 }
@@ -77,6 +79,9 @@ dreamRemove.onclick = function(){
   deleteDream();
 }
 
+dreamChange.onclick = function(){
+  changeDream();
+}
 /*const appdata = [
 ]
 
