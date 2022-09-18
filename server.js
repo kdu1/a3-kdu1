@@ -14,6 +14,7 @@ app.use(cookieParser());
 
 app.get("/", function(request, response) {
   console.log(request.cookies);
+  console.log('Signed Cookies: ', request.signedCookies);
   response.sendFile(__dirname + "/views/login.html");
 });
 
