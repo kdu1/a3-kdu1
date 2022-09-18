@@ -10,8 +10,10 @@ const app = express();
 
 // http://expressjs.com/en/starter/static-files.html
 app.use(express.static("public"));
+app.use(cookieParser());
 
 app.get("/", function(request, response) {
+  console.log(request.cookies);
   response.sendFile(__dirname + "/views/login.html");
 });
 
@@ -22,7 +24,7 @@ app.get("/", function(request, response) {
 });*/
 
 var cookieParser = require('cookie-parser');
-console.log(req.cookies);
+
 
 // listen for requests :)
 const listener = app.listen(process.env.PORT, function() {
