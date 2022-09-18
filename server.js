@@ -21,7 +21,8 @@ app.get("/", function(request, response) {
   response.sendFile(__dirname + "/views/index.html");
 });*/
 
-
+var cookieParser = require('cookie-parser');
+console.log(req.cookies);
 
 // listen for requests :)
 const listener = app.listen(process.env.PORT, function() {
