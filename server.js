@@ -20,19 +20,19 @@ client.connect(err => {
 
 //var bodyParser = require('body-parser');
 
-//app.use( express.urlencoded({ extended:true }) )
+app.use( express.urlencoded({ extended:true }) )
 
-/*app.use( cookie({
+app.use( cookie({
   name: 'session',
   keys: ['key1', 'key2']
-}))*/
+}))
 
-/*
+
 app.post( '/login', (req,res)=> {
   // express.urlencoded will put your key value pairs 
   // into an object, where the key is the name of each
   // form field and the value is whatever the user entered
-  console.log( req.body )
+  console.log( req.body.password )
   
   // below is *just a simple authentication example* 
   // for A3, you should check username / password combos in your database
@@ -45,7 +45,7 @@ app.post( '/login', (req,res)=> {
     // use redirect to avoid authentication problems when refreshing
     // the page or using the back button, for details see:
     // https://stackoverflow.com/questions/10827242/understanding-the-post-redirect-get-pattern 
-    res.redirect( 'main.html' )
+    res.redirect( '/main.html' )
   }else{
     // password incorrect, redirect back to login page
     res.sendFile( __dirname + '/views/login.html' )
@@ -58,7 +58,7 @@ app.use( function( req,res,next) {
     next()
   else
     res.sendFile( __dirname + '/views/login.html' )
-})*/
+})
 
 
 // parse application/x-www-form-urlencoded

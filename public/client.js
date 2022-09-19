@@ -1,6 +1,5 @@
 // client-side js
 // run by the browser each time your view template is loaded
-
 console.log("hello world :o");
 
 // our default array of dreams
@@ -44,7 +43,7 @@ const deleteDream = function(){
         });
         dreams.splice(index, 1);
         i--;
-    }
+    } 
     console.log(dreams)
 }
 
