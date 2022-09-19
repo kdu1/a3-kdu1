@@ -20,6 +20,8 @@ const dreamInput = dreamsForm.elements["dream"];
 const dreamRemove = document.getElementById("remove-dream");
 const dreamModify = document.getElementById("modify-dream");
 const dreamModifyInput = dreamsModifyForm.elements["dreamModify"];
+//why does this get rid of the list?
+//const lis = document.getElementById("dream").getElementsByTagName("li");
 
 // a helper function that creates a list item for a given dream
 const appendNewDream = function(dream) {
@@ -36,13 +38,12 @@ const deleteDream = function(){
   const index = 0
     if(index > -1){
         const rmv = document.getElementById(index);
-        dreams.forEach(function(dream) {
-          dream.value.id = dream.value.id--;
-          console.log(dream.id)
-        });
-
         rmv.remove();
+        /*lis.forEach(function (dream){
+          dream.id = dream.id - 1;
+        });*/
         dreams.splice(index, 1);
+        i--;
     }
     console.log(dreams)
 }
