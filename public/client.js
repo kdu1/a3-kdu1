@@ -36,6 +36,11 @@ const deleteDream = function(){
   const index = 0
     if(index > -1){
         const rmv = document.getElementById(index);
+        dreams.forEach(function(dream) {
+          dream.value.id = dream.value.id--;
+          console.log(dream.id)
+        });
+
         rmv.remove();
         dreams.splice(index, 1);
     }
