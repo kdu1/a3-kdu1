@@ -33,7 +33,6 @@ app.post( '/login', (req,res)=> {
   // into an object, where the key is the name of each
   // form field and the value is whatever the user entered
   console.log( req.body.password )
-  deb
   // below is *just a simple authentication example* 
   // for A3, you should check username / password combos in your database
   if( req.body.password === 'test' ) {
