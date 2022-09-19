@@ -44,7 +44,7 @@ app.post( '/login', (req,res)=> {
     // use redirect to avoid authentication problems when refreshing
     // the page or using the back button, for details see:
     // https://stackoverflow.com/questions/10827242/understanding-the-post-redirect-get-pattern 
-    res.redirect( '/views/main.html' )
+    res.redirect('/views/main.html' )
   }else{
     // password incorrect, redirect back to login page
     res.sendFile( __dirname + '/views/login.html' )
@@ -56,6 +56,7 @@ app.use( function( req,res,next) {
   if( req.session.login === true )
     next()
   else
+    //console.log('a')
     res.sendFile( __dirname + '/views/login.html' )
 })
 
