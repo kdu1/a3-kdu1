@@ -6,18 +6,16 @@ const express = require("express");
 const app = express();
 const cookie = require("cookie-session");
 
-var bodyParser = require('body-parser');
+//var bodyParser = require('body-parser');
 
-// we've started you off with Express,
-// but feel free to use whatever libs or frameworks you'd like through `package.json`.
+//app.use( express.urlencoded({ extended:true }) )
 
-app.use( express.urlencoded({ extended:true }) )
-
-app.use( cookie({
+/*app.use( cookie({
   name: 'session',
   keys: ['key1', 'key2']
-}))
+}))*/
 
+/*
 app.post( '/login', (req,res)=> {
   // express.urlencoded will put your key value pairs 
   // into an object, where the key is the name of each
@@ -48,24 +46,24 @@ app.use( function( req,res,next) {
     next()
   else
     res.sendFile( __dirname + '/views/login.html' )
-})
+})*/
 
 
 // parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: false }))
+//app.use(bodyParser.urlencoded({ extended: false }))
 
 // parse application/json
-app.use(bodyParser.json())
+//app.use(bodyParser.json())
 
-app.use(function (req, res) {
+/*app.use(function (req, res) {
   res.setHeader('Content-Type', 'text/plain')
   res.write('you posted:\n')
   res.end(JSON.stringify(req.body, null, 2))
-})
+})*/
 
 // http://expressjs.com/en/starter/basic-routing.html
 app.get("/", function(request, response) {
-  response.sendFile(__dirname + "/views/index.html");
+  response.sendFile(__dirname + "/views/main.html");
 });
 
 // http://expressjs.com/en/starter/static-files.html
