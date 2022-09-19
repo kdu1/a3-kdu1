@@ -4,22 +4,52 @@
 // init project
 const express = require("express");
 const app = express();
+const cookie = require("cookie-session");
 
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser')
+var bodyParser = require('body-parser');
 
 // we've started you off with Express,
 // but feel free to use whatever libs or frameworks you'd like through `package.json`.
 
-// http://expressjs.com/en/starter/static-files.html
-app.use(express.static("public"));
-app.use(cookieParser());
+app.use( express.urlencoded({ extended:true }) )
 
-/*app.get("/", function(request, response) {
-  //console.log(request.cookies);
-  //console.log('Signed Cookies: ', request.signedCookies);
-  response.sendFile(__dirname + "/views/login.html");
-});*/
+app.use( cookie({
+  name: 'session',
+  keys: ['key1', 'key2']
+}))
+
+app.post( '/login', (req,res)=> {
+  // express.urlencoded will put your key value pairs 
+  // into an object, where the key is the name of each
+  // form field and the value is whatever the user entered
+  console.log( req.body )
+  
+  // below is *just a simple authentication example* 
+  // for A3, you should check username / password combos in your database
+  if( req.body.password === 'test' ) {
+    // define a variable that we can check in other middleware
+    // the session object is added to our requests by the cookie-session middleware
+    req.session.login = true
+    
+    // since login was successful, send the user to the main content
+    // use redirect to avoid authentication problems when refreshing
+    // the page or using the back button, for details see:
+    // https://stackoverflow.com/questions/10827242/understanding-the-post-redirect-get-pattern 
+    res.redirect( 'main.html' )
+  }else{
+    // password incorrect, redirect back to login page
+    res.sendFile( __dirname + '/views/login.html' )
+  }
+})
+
+// add some middleware that always sends unauthenicaetd users to the login page
+app.use( function( req,res,next) {
+  if( req.session.login === true )
+    next()
+  else
+    res.sendFile( __dirname + '/views/login.html' )
+})
+
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -35,16 +65,18 @@ app.use(function (req, res) {
 
 // http://expressjs.com/en/starter/basic-routing.html
 app.get("/", function(request, response) {
-  console.log(request.cookies);
-  console.log('Signed Cookies: ', request.signedCookies);
   response.sendFile(__dirname + "/views/index.html");
 });
 
+// http://expressjs.com/en/starter/static-files.html
+app.use(express.static("public"));
 
 // listen for requests :)
 const listener = app.listen(process.env.PORT, function() {
   console.log("Your app is listening on port " + listener.address().port);
 });
+
+
 
 const { MongoClient, ServerApiVersion } = require('mongodb');
 const uri = "mongodb+srv://kdu1:a3Password123@cluster0.zjyldku.mongodb.net/?retryWrites=true&w=majority";
