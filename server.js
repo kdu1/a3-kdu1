@@ -5,8 +5,8 @@
 
 // init project
 const express = require("express");
-const app = express();
 const cookie = require("cookie-session");
+const app = express();
 
 const { MongoClient, ServerApiVersion } = require('mongodb');
 const uri = "mongodb+srv://kdu1:a3Password123@cluster0.zjyldku.mongodb.net/?retryWrites=true&w=majority";
@@ -20,7 +20,7 @@ client.connect(err => {
 
 //var bodyParser = require('body-parser');
 
-app.use( express.urlencoded({ extended:true }) )
+//app.use( express.urlencoded({ extended:true }) )
 
 /*app.use( cookie({
   name: 'session',
