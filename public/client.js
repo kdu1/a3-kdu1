@@ -20,7 +20,8 @@ const dreamRemove = document.getElementById("remove-dream");
 const dreamModify = document.getElementById("modify-dream");
 const dreamModifyInput = dreamsModifyForm.elements["dreamModify"];
 //why does this get rid of the list?
-const lis = document.getElementById("dream").getElementsByTagName("li");
+const lis = document.getElementById("dream");
+//list = lis.getElementsByTagName("li");
 
 // a helper function that creates a list item for a given dream
 const appendNewDream = function(dream) {
@@ -38,9 +39,9 @@ const deleteDream = function(){
     if(index > -1){
         const rmv = document.getElementById(index);
         rmv.remove();
-        lis.forEach(function (dream){
+        /*lis.forEach(function (dream){
           dream.id = dream.id - 1;
-        });
+        });*/
         dreams.splice(index, 1);
         i--;
     } 
@@ -97,6 +98,82 @@ dreamsModifyForm.onsubmit = function(event) {
   dreamModifyInput.value = "";
   dreamModifyInput.focus();
 };
+
+const update = function(newItem){
+      const entry = document.getElementById("todoList")
+      entry.innerHTML = "<tr><th>" + "Task" + "</th><th>" 
+      + "Due Date" + "</th><th>"
+      + "Priority" + "</th><th>" 
+      + "Most Urgent" + "</th></tr>"
+
+      let id = 0
+
+      //const delButton = document.createNewElement("button")
+      //button.innerHTML = "Delete"
+      console.log("newItem")
+      console.log(newItem)
+      newItem.forEach((element, index) => {
+
+        let newEntry = document.createElement("tr")
+        newEntry.setAttribute("id", id)
+        newEntry.setAttribute("value", false)
+
+        let newEntryItem = document.createElement("td")
+        newEntryItem.innerHTML = element.listItem
+
+        let newEntryDate = document.createElement("td")
+        newEntryDate.innerHTML = element.dueDate
+
+        let newEntryPriority = document.createElement("td")
+        newEntryPriority.innerHTML = element.priority
+
+        let newEntryUrgent = document.createElement("td")
+        newEntryUrgent.innerHTML = element.urgent
+       
+        newEntry.appendChild(newEntryItem)
+        newEntry.appendChild(newEntryDate)
+        newEntry.appendChild(newEntryPriority)
+        newEntry.appendChild(newEntryUrgent)
+
+        /*entry.innerHTML += 
+            "<tr><td>" + element.listItem + "</td><td>" 
+            + element.dueDate + "</td><td>"
+            + element.priority + "</td></tr>"
+           // + "<td><button id=`{$element.listItem}`>" + "Delete" + "</button></td></tr>"*/
+
+        /*let delButton = document.createElement("button")
+        delButton.innerHTML = "Remove"
+        delButton.setAttribute("value", "Remove")
+        delButton.setAttribute("id", id)
+
+        newEntry.appendChild(delButton)
+        //entry.appendChild(newEntry)
+
+        newEntry.addEventListener('click', function(e) {
+           //IT WORKS BUT NEEDS TO CHANGE APPDATA
+           //newEntry.del = true
+           //console.log(newEntry.del)
+           newEntry.parentNode.removeChild(newEntry);
+           
+        });*/
+
+        /*const delButton = document.querySelectorAll( 'button' )[1]
+        delButton.innerHTML = "Remove"
+        delButton.setAttribute("id", id)
+
+        newEntry.appendChild(delButton)
+        delButton.onclick = remove*/
+
+        console.log(newEntry)
+        entry.appendChild(newEntry)
+
+        id += 1
+      })
+     
+      
+      console.log(entry.innerHTML)
+
+  }
 
 /*const appdata = [
 ]
