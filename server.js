@@ -11,7 +11,7 @@ const app = express()
 // http://expressjs.com/en/starter/static-files.html
 app.use("/", express.static("public"))
 app.use("/", express.static("views"))
-//app.use(express.json())
+app.use(express.json())
 
 app.engine( 'handlebars',  hbs() )
 app.set(    'view engine', 'handlebars' )
@@ -36,6 +36,9 @@ app.use( cookie({
   keys: ['key1', 'key2']
 }))
 
+let collection = null
+let usern = null
+let hasUser = null
 
 app.post( '/login', (req,res)=> {
   // express.urlencoded will put your key value pairs 
@@ -44,8 +47,8 @@ app.post( '/login', (req,res)=> {
   //console.log( req.body.password)
   // below is *just a simple authentication example* 
   // for A3, you should check username / password combos in your database
-      let collection = null
       let data = null
+      usern = req.body.username
 
       client.connect()
       .then( () => {
@@ -72,9 +75,9 @@ app.post( '/login', (req,res)=> {
         return data
       })
       .then( allCollection =>{
-        console.log(allCollection)
-        console.log(req.body.username)
-        console.log(req.body.password)
+        //console.log(allCollection)
+        //console.log(req.body.username)
+        //console.log(req.body.password)
 
         if(allCollection.length != 0){
             req.session.login = true
@@ -190,6 +193,65 @@ app.get( '/views/main.html', ( req, res) => {
     //res.render( 'main', { msg:'success you have logged in', layout:false })
 })
 
+dreams = []
+
+const remove = function(array){
+    const index = 0
+    if(index > -1){
+        array.splice(index, 1)
+    }
+    console.log(array)
+}
+
+app.post('/delete',  (req, res) => {
+    if(collection.find({"data":{"listItem": req.listItem, "dueDate": req.dueDate, "priority":req.priority}}) != null){
+    //if it is in the database
+        if(req.body.del){
+            console.log("remove one")
+            collection.data.updateOne({$pull: {"listItem": req.listItem, "dueDate": req.dueDate, "priority":req.priority}})
+            remove(dreams)
+            console.log(dreams)
+            res.writeHead( 200, { 'Content-Type': 'application/json' })
+            res.end( JSON.stringify( dreams ) )
+        }
+    }
+})
+
+//for deleting entire entry
+app.post('/deleteaccount',  (req, res) => {
+    if(collection.find({"username": usern}) != null){
+        collection.deleteOne({"username": usern})
+    }
+})
+
+
+app.post( '/submit', (req, res) => {
+//how to get username here? 
+//also not sure how to access id from here
+//get the first item in the collection
+    /*if(collection.find({"listItem": req.listItem, "dueDate": req.dueDate, "priority":req.priority})!= null){
+    //if it is in the database
+        if(req.body.del){
+            console.log("remove one")
+            collection.deleteOne({"listItem": req.listItem, "dueDate": req.dueDate, "priority":req.priority})
+        }
+    }
+    else{*/
+       
+        collection.updateOne(
+          { username:usern },
+          {$push: {data: req.body} }
+        )
+        allItems = collection.find({"user": usern}).toArray()
+        dreams.push(allItems)
+        //dreams.push( req.body )
+        console.log(dreams)
+        res.writeHead( 200, { 'Content-Type': 'application/json' })
+        res.end( JSON.stringify( dreams ) )
+        //.then( result => res.json( result.body ) )
+    //}
+  //console.log(req.body)
+})
 
 //app.use( express.json() )
 
@@ -242,7 +304,7 @@ app.post( '/update', (req,res) => {
 app.get( '/', (req,res) => {
   if( collection !== null ) {
     // get array and pass to res.json
-    collection.find({"username":req.boy.username, "password":req.body.password}).toArray().then( result => res.json( result ) )
+    collection.find({"user": usern }).toArray().then( result => res.json( result ) )
   }
 })
 

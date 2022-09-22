@@ -11,7 +11,7 @@ loginForm.onsubmit = function(event) {
   //push as key value pair
   console.log (username, password);
   loginjson = {
-		"_username": username,"_password": password, "_login": false
+		"username": username,"password": password, "login": false
   }
 
   fetch( '/submit', {

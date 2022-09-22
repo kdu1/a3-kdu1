@@ -4,33 +4,33 @@ console.log("hello world :o");
 
 // our default array of dreams
 const dreams = [
-  "Find and count some sheep",
-  "Climb a really tall mountain",
-  "Wash the dishes"
 ];
 
 let i = 0;
 
 // define variables that reference elements on our page
-const dreamsList = document.getElementById("dreams");
 const dreamsForm = document.forms[0];
 const dreamsModifyForm = document.forms[1];
 const dreamInput = dreamsForm.elements["dream"];
+const dueDate = dreamsForm.elements["dueDate"];
+const priority = dreamsForm.elements["priority"];
 const dreamRemove = document.getElementById("remove-dream");
 const dreamModify = document.getElementById("modify-dream");
 const dreamModifyInput = dreamsModifyForm.elements["dreamModify"];
+const todoList = document.getElementById("todoList");
 //why does this get rid of the list?
 const lis = document.getElementById("dream");
 //list = lis.getElementsByTagName("li");
 
 // a helper function that creates a list item for a given dream
 const appendNewDream = function(dream) {
-  const newListItem = document.createElement("li");
+  /*const newListItem = document.createElement("li");
   newListItem.innerHTML = dream;
   newListItem.id = i;
   console.log(newListItem.id);
   dreamsList.appendChild(newListItem);
-  i++;
+  i++;*/
+  update(dream)
 };
 
 //removes dream at index
@@ -75,6 +75,26 @@ dreamsForm.onsubmit = function(event) {
   // get dream value and add it to the list
   dreamInput.value.id = i;
   i++;
+
+  let json = { listItem: dreamInput.value,
+                 dueDate: dueDate.value,
+                 priority: priority.value.toLowerCase(),
+                 urgent: 0,
+                }
+    body = JSON.stringify( json )
+
+    /*fetch( '/submit', {
+      method:'POST',
+      body 
+    })
+    .then(async function (response){*/
+       /*console.log("the function response")
+       console.log(response)
+       let newData = await response.json() //wait until response*/
+       //update(body)
+       console.log(body)
+    //})
+   
   dreams.push(dreamInput.value);
   appendNewDream(dreamInput.value);
 
@@ -100,8 +120,8 @@ dreamsModifyForm.onsubmit = function(event) {
 };
 
 const update = function(newItem){
-      const entry = document.getElementById("todoList")
-      entry.innerHTML = "<tr><th>" + "Task" + "</th><th>" 
+      todoList.innerHTML = "<tr><th>" + "Username" + "</th><th>" 
+      + "Task" + "</th><th>" 
       + "Due Date" + "</th><th>"
       + "Priority" + "</th><th>" 
       + "Most Urgent" + "</th></tr>"
@@ -165,7 +185,7 @@ const update = function(newItem){
         delButton.onclick = remove*/
 
         console.log(newEntry)
-        entry.appendChild(newEntry)
+        todoList.appendChild(newEntry)
 
         id += 1
       })

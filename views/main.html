@@ -1,4 +1,46 @@
-﻿<!DOCTYPE html>
+﻿<!doctype html>
+<html lang="en">
+<head>
+    <title>CS4241 Assignment 3</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=2.0,width=device-width" />
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Roboto" />
+    <link rel="stylesheet" href="/style.css">
+    <script src="/clientog.js" defer></script>
+</head>
+<body>
+    <h1>
+        Todo List
+    </h1>
+    <form id="inputItem" class="formItems">
+        <input type="text" id="listItem" placeholder="Add todo here">
+        <input type="text" id="dueDate" placeholder="Enter a 4 digit number e.g. 0908" />
+        <input type="text" id="priority" placeholder="High, medium or low" />
+        <button>Submit</button>
+    </form>
+    <form id="modifyItem" class="formItems">
+        <input type="text" id="modlistItem" placeholder="change todo">
+        <input type="text" id="moddueDate" placeholder="change due date" />
+        <input type="text" id="modpriority" placeholder="change priority" />
+        <button>Submit</button>
+    </form>
+    <button id="delButton">Remove</button>
+    <table id="todoList" class="todoTable">
+        <tr>
+            <th>Username</th>
+            <th>Task</th>
+            <th>Due Date</th>
+            <th>Priority</th>
+            <th>Most Urgent</th>
+        </tr>
+    </table>
+    <button id="delaccount">Delete Account</button>
+</body>
+</html>
+
+
+<!--DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -27,26 +69,24 @@
             <label>
                 New Dream
                 <input name="dream" type="text" maxlength="100" required placeholder="Dreams!">
+                <input name="dueDate" type="text" placeholder="Enter a 4 digit number e.g. 0908" />
+                <input name="priority" type="text" placeholder="High, medium or low" />
             </label>
 
             <button type="submit" id="submit-dream">Add Dream</button>
         </form>
 
-        <div><button type="remove" id="remove-dream">Remove Dream</button></div>
+        <div><button id="remove-dream">Remove Dream</button></div>
         <form>
             <label>
                 Modify Dream
                 <input name="dreamModify" type="text" maxlength="100" required placeholder="Change Dream">
             </label>
-            <button type="modify" id="modify-dream">Change Dream</button>
+            <button type="submit" id="modify-dream">Change Dream</button>
         </form>
-        <div></div>
-
-        <section class="dreams">
-            <ul id="dreams"></ul>
-        </section>
         <table id="todoList" class="todoTable">
             <tr>
+                <th>Username</th>
                 <th>Task</th>
                 <th>Due Date</th>
                 <th>Priority</th>
@@ -56,7 +96,6 @@
     </main>
 </body>
 </html>
-
 <!-- This is a static file -->
 <!-- served from your routes in server.js -->
 <!--DOCTYPE html>
