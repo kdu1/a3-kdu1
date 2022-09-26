@@ -5,20 +5,16 @@ const submit = function( e ) {
     let listItem = document.querySelector( '#listItem' )
     let dueDate  = document.querySelector( '#dueDate' )
     let priority = document.querySelector( '#priority' )
-    let del = document.querySelector('#delButton')
+
     let json = { 
+                 username: "",
                  listItem: listItem.value,
                  dueDate: dueDate.value,
                  priority: priority.value.toLowerCase(),
                  urgent: 0,
-                 del: false
                 }
     body = JSON.stringify( json )
 
-    /*fetch( '/submit', {
-      method:'POST',
-      body 
-    })*/
     fetch( '/submit', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -27,12 +23,49 @@ const submit = function( e ) {
        console.log("the function response")
        console.log(response)
        let newData = await response.json() //wait until response
+       console.log("is response")
        console.log(newData)
-       update(newData)
-       console.log(newData)
+       newData.forEach(function(item) {
+            update(item)
+       })
     })
     return false
   }
+
+  const modify = function( e ) {
+    // prevent default form action from being carried out
+    e.preventDefault()
+
+    let listItem = document.getElementById( 'modlistItem' )
+    let dueDate  = document.getElementById( 'moddueDate' )
+    let priority = document.getElementById( 'modpriority' )
+
+    let json = { 
+                 username: "",
+                 listItem: listItem.value,
+                 dueDate: dueDate.value,
+                 priority: priority.value.toLowerCase(),
+                 urgent: 0,
+                }
+    body = JSON.stringify( json )
+
+    fetch( '/modify', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: body
+    }).then(async function (response){
+       console.log("the function response")
+       console.log(response)
+       let newData = /*await*/ response.json() //wait until response
+       console.log("is response")
+       console.log(newData)
+       newData.forEach(function(item) {
+            update(item)
+       })
+    })
+    return false
+  }
+
 
   const update = function(newItem){
       const entry = document.getElementById("todoList")
@@ -44,8 +77,6 @@ const submit = function( e ) {
 
       let id = 0
 
-      //const delButton = document.createNewElement("button")
-      //button.innerHTML = "Delete"
       console.log("newItem")
       console.log(newItem)
       newItem.forEach((element, index) => {
@@ -53,6 +84,9 @@ const submit = function( e ) {
         let newEntry = document.createElement("tr")
         newEntry.setAttribute("id", id)
         newEntry.setAttribute("value", false)
+
+        let newEntryUser = document.createElement("td")
+        newEntryUser.innerHTML = element.username
 
         let newEntryItem = document.createElement("td")
         newEntryItem.innerHTML = element.listItem
@@ -66,39 +100,17 @@ const submit = function( e ) {
         let newEntryUrgent = document.createElement("td")
         newEntryUrgent.innerHTML = element.urgent
        
+        newEntry.appendChild(newEntryUser)
         newEntry.appendChild(newEntryItem)
         newEntry.appendChild(newEntryDate)
         newEntry.appendChild(newEntryPriority)
         newEntry.appendChild(newEntryUrgent)
 
-        /*entry.innerHTML += 
-            "<tr><td>" + element.listItem + "</td><td>" 
-            + element.dueDate + "</td><td>"
-            + element.priority + "</td></tr>"
-           // + "<td><button id=`{$element.listItem}`>" + "Delete" + "</button></td></tr>"*/
+        let delcheck = document.createElement("INPUT")
+        delcheck.setAttribute("type", "checkbox")
+        delcheck.setAttribute("id", id)
 
-        /*let delButton = document.createElement("button")
-        delButton.innerHTML = "Remove"
-        delButton.setAttribute("value", "Remove")
-        delButton.setAttribute("id", id)
-
-        newEntry.appendChild(delButton)
-        //entry.appendChild(newEntry)
-
-        newEntry.addEventListener('click', function(e) {
-           //IT WORKS BUT NEEDS TO CHANGE APPDATA
-           //newEntry.del = true
-           //console.log(newEntry.del)
-           newEntry.parentNode.removeChild(newEntry);
-           
-        });*/
-
-        /*const delButton = document.querySelectorAll( 'button' )[1]
-        delButton.innerHTML = "Remove"
-        delButton.setAttribute("id", id)
-
-        newEntry.appendChild(delButton)
-        delButton.onclick = remove*/
+        newEntry.appendChild(delcheck)
 
         console.log(newEntry)
         entry.appendChild(newEntry)
@@ -125,15 +137,14 @@ const submit = function( e ) {
   const remove = function(e){
     e.preventDefault()
 
-    let listItem = document.querySelector( '#listItem' )
-    let dueDate  = document.querySelector( '#dueDate' )
-    let priority = document.querySelector( '#priority' )
-    let del = document.querySelector('#delButton')
-    let json = { listItem: listItem.value,
-                 dueDate: dueDate.value,
-                 priority: priority.value,
-                 urgent: 0,
-                 del: true
+    //let listItem = document.querySelector( '#listItem' )
+    //let dueDate  = document.querySelector( '#dueDate' )
+    //let priority = document.querySelector( '#priority' )
+    let json = { username: "",
+                 listItem: "",
+                 dueDate: "",
+                 priority: "",
+                 urgent: 0
                 }
     body = JSON.stringify( json )
 
@@ -145,8 +156,10 @@ const submit = function( e ) {
     .then(async function (response){
        console.log("the function response")
        console.log(response)
-       let newData = await response.json() //wait until response
-       update(newData)
+       let newData = /*await*/ response.json() //wait until response
+       newData.forEach(function(item) {
+            update(item)
+       })
        console.log(newData)
     })
     return false
@@ -155,6 +168,8 @@ const submit = function( e ) {
   window.onload = function() {
     const button = document.querySelector( 'button' )
     button.onclick = submit
-    const delButton = document.querySelectorAll( 'button' )[1]
+    const delButton = document.getElementById('delButton')
     delButton.onclick = remove
+    const modButton = document.getElementById('modifySubmit')
+    modButton.onclick = modify
   }

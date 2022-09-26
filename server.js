@@ -26,9 +26,6 @@ client.connect(err => {
   client.close()
 });
 
-
-//var bodyParser = require('body-parser');
-
 app.use( express.urlencoded({ extended:true }) )
 
 app.use( cookie({
@@ -60,16 +57,13 @@ app.post( '/login', (req,res)=> {
         hasUser = collection.find({'username' : req.body.username}).toArray()
         return hasUser
       })
-      .then( /*__collection*/__hasUser => {
-        // store reference to collection
-        //collection = __collection
+      .then( __hasUser => {
         if(__hasUser.length === 0){
             console.log("Account does not exist. Creating new account.") //TODO: Make visible to user
             //add account
-            collection.insertOne( req.body )//.then( result => res.json( result )) //why does it jump to the JSON tho
+            collection.insertOne( req.body )//.then( result => res.json( result )) 
         
         }
-        //allTheItems = collection.find({ }).toArray()
         data = collection.find({ 'password' : req.body.password, 'username' : req.body.username}).toArray()
 
         return data
@@ -104,46 +98,7 @@ app.post( '/login', (req,res)=> {
             res.status( 503 ).send()
       }
       })
-    //console.log("data")
-    //console.log(data) //so this is null
     
-  /*client.db('database1').collection('collection1').find({"username":req.body.username, "password":req.body.password}).then( info => { 
-      // below is *just a simple authentication example* 
-      // for A3, you should check username / password combos in your database
-      if(info === null) {
-        // define a variable that we can check in other middleware
-        // the session object is added to our requests by the cookie-session middleware
-        req.session.login = false
-        console.log("login failed, account not found")
-        res.sendFile( __dirname + '/views/login.html' )
-      }else{
-        console.log("logged in")
-        req.session.login = true
-        // since login was successful, send the user to the main content
-        // use redirect to avoid authentication problems when refreshing
-        // the page or using the back button, for details see:
-        // https://stackoverflow.com/questions/10827242/understanding-the-post-redirect-get-pattern 
-        res.redirect('/views/main.html')
-      }
-    })*/
-/*
-  if( req.body.password === 'test' ) {
-    // define a variable that we can check in other middleware
-    // the session object is added to our requests by the cookie-session middleware
-    req.session.login = true
-    console.log("logged in")
-    // since login was successful, send the user to the main content
-    // use redirect to avoid authentication problems when refreshing
-    // the page or using the back button, for details see:
-    // https://stackoverflow.com/questions/10827242/understanding-the-post-redirect-get-pattern 
-    res.redirect('/views/main.html')
-  }else{
-    // password incorrect, redirect back to login page
-    //where is it sending file to? Is it sending it to loginclient.js?
-    console.log("login failed")
-    //res.render('login', { msg:'login failed, please try again', layout:false })
-    res.sendFile( __dirname + '/views/login.html' )
-  }*/
 })
 
 
@@ -154,21 +109,7 @@ app.use( function( req,res,next) {
   else
     console.log('unauthenticated users to login')
     res.sendFile( __dirname + '/views/login.html' )
-    //res.render('login', { msg:'login failed, please try again', layout:false })
 })
-
-
-/*app.use(function (req, res) {
-  res.setHeader('Content-Type', 'text/plain')
-  res.write('you posted:\n')
-  console.log(req.body)
-  res.end(JSON.stringify(req.body, null, 2))
-})*/
-
-/*app.get( '/', (req,res) => {
-   console.log("in the message thing in the thing app get /")
-   res.json( 'login', { msg:'message', layout:false })
-})*/
 
 // http://expressjs.com/en/starter/basic-routing.html
 app.get("/", function(request, response) {
@@ -183,122 +124,62 @@ app.use( function( req,res,next) {
   else
     console.log("not logged in")
    res.sendFile( __dirname + '/views/login.html' )
-    //res.render('login', { msg:'login failed, please try again', layout:false })
 })
 
 app.get( '/views/main.html', ( req, res) => {
     console.log("success you have logged in")
     res.sendFile( __dirname + '/views/main.html' )
-    //next()
-    //res.render( 'main', { msg:'success you have logged in', layout:false })
 })
 
 dreams = []
 
-const remove = function(array){
-    const index = 0
-    if(index > -1){
-        array.splice(index, 1)
-    }
-    console.log(array)
-}
 
 app.post('/delete',  (req, res) => {
-    if(collection.find({"data":{"listItem": req.listItem, "dueDate": req.dueDate, "priority":req.priority}}) != null){
-    //if it is in the database
-        if(req.body.del){
-            console.log("remove one")
-            collection.data.updateOne({$pull: {"listItem": req.listItem, "dueDate": req.dueDate, "priority":req.priority}})
-            remove(dreams)
-            console.log(dreams)
-            res.writeHead( 200, { 'Content-Type': 'application/json' })
-            res.end( JSON.stringify( dreams ) )
-        }
-    }
+    console.log("in delete");
+    req.body.username = usern   
+    console.log("remove one")
+    collection.updateOne({ username:usern }, {$pop: {"data" : -1/*data: req.body*/}})
+    dreams = []
+    collection.find({"username": usern}).toArray().then( allItems =>
+        allItems.forEach(function(item) {
+            dreams.push(item['data'])
+        })
+    )
+    res.writeHead( 200, { 'Content-Type': 'application/json' })
+    res.end( JSON.stringify( dreams ) )
 })
 
-//for deleting entire entry
-app.post('/deleteaccount',  (req, res) => {
-    if(collection.find({"username": usern}) != null){
-        collection.deleteOne({"username": usern})
-    }
+app.post('/modify',  (req, res) => {
+    console.log("in modify")
+    req.body.username = usern   
+    console.log(req.body)
+    collection.updateOne({ username:usern }, {$set: {"data.0" : req.body}})
+    dreams = []
+    collection.find({"username": usern}).toArray().then( allItems =>
+        allItems.forEach(function(item) {
+            dreams.push(item['data'])
+        })
+    )
+    res.writeHead( 200, { 'Content-Type': 'application/json' })
+    res.end( JSON.stringify( dreams ) )
 })
 
 
 app.post( '/submit', (req, res) => {
-//how to get username here? 
-//also not sure how to access id from here
-//get the first item in the collection
-    /*if(collection.find({"listItem": req.listItem, "dueDate": req.dueDate, "priority":req.priority})!= null){
-    //if it is in the database
-        if(req.body.del){
-            console.log("remove one")
-            collection.deleteOne({"listItem": req.listItem, "dueDate": req.dueDate, "priority":req.priority})
-        }
-    }
-    else{*/
-       
+        req.body.username = usern   
+
         collection.updateOne(
           { username:usern },
           {$push: {data: req.body} }
         )
-        allItems = collection.find({"user": usern}).toArray()
-        dreams.push(allItems)
-        //dreams.push( req.body )
-        console.log(dreams)
+       collection.find({"username": usern}).toArray().then( allItems =>
+            allItems.forEach(function(item) {
+                dreams.push(item['data'])
+            })
+        )
         res.writeHead( 200, { 'Content-Type': 'application/json' })
         res.end( JSON.stringify( dreams ) )
-        //.then( result => res.json( result.body ) )
-    //}
-  //console.log(req.body)
 })
-
-//app.use( express.json() )
-
-
-/*let collection = null
-
-client.connect()
-  .then( () => {
-    // will only create collection if it doesn't exist
-    return client.db( 'database1' ).collection( 'collection1' )
-  })
-  .then( __collection => {
-    // store reference to collection
-    collection = __collection
-    // blank query returns all documents
-    return collection.find({"username":req.boy.username}, {"password":req.body.password}).toArray()
-  })
-  .then( console.log )
-
-  app.use( (req,res,next) => {
-  if( collection !== null ) {
-    next()
-  }else{
-    res.status( 503 ).send()
-  }
-})
-
-app.post( '/add', (req,res) => {
-  // assumes only one object to insert
-  collection.insertOne({"username":req.boy.username, "password":req.body.password}).then( result => res.json( result ) ).then( json => console.log( json ) )
-})
-
-// assumes req.body takes form { _id:5d91fb30f3f81b282d7be0dd } etc.
-app.post( '/remove', (req,res) => {
-  collection
-    .deleteOne({ _id:mongodb.ObjectId( req.body._id ) })
-    .then( result => res.json( result ) )
-})
-
-app.post( '/update', (req,res) => {
-  collection
-    .updateOne(
-      { _id:mongodb.ObjectId( req.body._id ) },
-      { $set:{ username:req.body.username } }
-    )
-    .then( result => res.json( result ) )
-})*/
   
 // route to get all docs
 app.get( '/', (req,res) => {

@@ -5,16 +5,16 @@
 }
 
 body {
-  font-family: sans-serif;
+  font-family: roboto;
   margin: 2em 1em;
   line-height: 1.5em;
 }
 
 h1 {
-  font-style: italic;
-  color: #373fff;
-  max-width: calc(100% - 5rem);
-  line-height: 1.1;
+    font-weight: bold;
+    color: #285cff;
+    max-width: calc(100% - 5rem);
+    line-height: 1.1;
 }
 
 
@@ -35,7 +35,7 @@ input {
   width: 100%;
 }
 
-form button {
+/*form button {
   background-color: #bbbbf2;
   border: 2px solid currentColor;
   border-radius: .25em;
@@ -44,6 +44,16 @@ form button {
   line-height: 1.4em;
   padding: 0.25em 1em;
   max-width: 20ch;
+}
+*/
+
+button{
+    margin:5px;
+}
+
+.button-primary {
+    background: #285cff;
+    color: #fff6e5;
 }
 
 form button:hover {
