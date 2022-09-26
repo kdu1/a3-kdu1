@@ -2,7 +2,7 @@
 
 # Todo-user
 Kaley Du
-GLITCH LINK
+http://a3-kdu1.glitch.me
 
 A custom to do list for each user
 
@@ -32,6 +32,9 @@ The five Express middleware packages I used were
 
 ##Technical Achievements:
 -Got 100 on all four Lighthouse tests
+-Deployed project on Heroku
+What was better about this was that it was simple to connect it to Github, as glitch was buggy with this. It is also
+much faster. A drawback may be it is more complex.
 
 ##Design Achievements:
 ###Contrast 
